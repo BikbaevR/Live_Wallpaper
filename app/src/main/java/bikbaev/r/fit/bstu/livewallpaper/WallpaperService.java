@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import bikbaev.r.fit.bstu.livewallpaper.drawer.Drawer;
+
 public class WallpaperService extends android.service.wallpaper.WallpaperService {
     @Override
     public Engine onCreateEngine() {
@@ -17,6 +19,8 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
         SurfaceHolder surfaceHolder;
 
         Handler handler;
+
+        Drawer drawer = new Drawer();
 
         Runnable redrawRunnable = new Runnable() {
             @Override
@@ -31,7 +35,8 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
                 try {
                     Canvas canvas = surfaceHolder.lockCanvas();
                     if(canvas != null) {
-                        canvas.drawColor(Color.RED);
+                        //canvas.drawColor(Color.RED);
+                        drawer.draw(canvas);
                     }
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 } catch (Exception exception) {
@@ -61,6 +66,10 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
+            handler.removeCallbacks(redrawRunnable);
+            if(visible) {
+                handler.post(redrawRunnable);
+            }
         }
 
         @Override
@@ -82,11 +91,14 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
         @Override
         public void onSurfaceCreated(SurfaceHolder holder) {
             super.onSurfaceCreated(holder);
+            surfaceHolder = holder;
+            handler.post(redrawRunnable);
         }
 
         @Override
         public void onSurfaceDestroyed(SurfaceHolder holder) {
             super.onSurfaceDestroyed(holder);
+            handler.removeCallbacks(redrawRunnable);
         }
     }
 }
