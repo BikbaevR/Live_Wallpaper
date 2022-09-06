@@ -2,5 +2,5 @@
     <string name="app_name">LiveWallpaper</string>
 
     <string name="wallpaper_description">Live Wallpaper</string>
-    <string name="choose_wallpaper">Установить обои</string>
+    <string name="choose_wallpaper">Choose Wallpaper</string>
 </resources>

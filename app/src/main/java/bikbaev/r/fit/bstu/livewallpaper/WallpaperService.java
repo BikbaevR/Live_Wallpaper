@@ -11,6 +11,9 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
     }
 
     class WallpaperEngine extends Engine {
+
+        SurfaceHolder surfaceHolder;
+
         public WallpaperEngine() {
             super();
         }
@@ -18,6 +21,7 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
+            this.surfaceHolder = surfaceHolder;
         }
 
         @Override
@@ -33,6 +37,7 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
+            surfaceHolder = holder;
         }
 
         @Override
@@ -41,6 +46,7 @@ public class WallpaperService extends android.service.wallpaper.WallpaperService
             Canvas canvas = holder.lockCanvas();
             canvas.drawColor(Color.RED);
             holder.unlockCanvasAndPost(canvas);
+            surfaceHolder = holder;
         }
 
         @Override
